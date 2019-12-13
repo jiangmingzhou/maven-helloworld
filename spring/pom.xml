@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>my.zjm</groupId>
-    <artifactId>maven-helloworld</artifactId>
+    <artifactId>maven-helloworld-spring</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -102,7 +102,7 @@
                             </descriptorRefs>
                             <archive>
                                 <manifest>
-                                    <mainClass>my.zjm.HelloWorld</mainClass>
+                                    <mainClass>my.zjm.spring.HelloWorld</mainClass>
                                 </manifest>
                             </archive>
                             <finalName>helloworld</finalName>

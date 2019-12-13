@@ -5,16 +5,22 @@
 
 import os, sys, getopt, shutil
 
+project_name = "maven-helloworld-spring"
+
 def show_usage():
     print("Usage:")
     print("\tfork.py -p|--project <project> -d|--directory <directory>")
 
 def current_dir():
-    # 设置路径
-    path = "\\"
-    # 获取指定路径下的文件
-    dir = os.path.split(os.path.realpath(__file__))[0]
-    return dir
+    file_path = os.path.abspath(__file__)
+    return os.path.dirname(file_path)
+
+def rmtree(path):
+    if os.path.isfile(path):
+        os.remove(path)
+
+    if os.path.isdir(path):
+        shutil.rmtree(path)
 
 def fork(project, directory):
     assert project != None and directory != None
@@ -29,14 +35,14 @@ def fork(project, directory):
     '''
         rm intelj relatives
     '''
-    os.remove(os.path.join(dest_dir, "maven-helloworld.iml"))
-    shutil.rmtree(os.path.join(dest_dir, ".idea"))
-    shutil.rmtree(os.path.join(dest_dir, "logs"))
+    rmtree(os.path.join(dest_dir, "%s.iml" % project_name))
+    rmtree(os.path.join(dest_dir, ".idea"))
+    rmtree(os.path.join(dest_dir, "logs"))
     '''
         rm git relatives
     '''
-    os.remove(os.path.join(dest_dir, ".gitignore"))
-    shutil.rmtree(os.path.join(dest_dir, ".git"))
+    rmtree(os.path.join(dest_dir, ".gitignore"))
+    rmtree(os.path.join(dest_dir, ".git"))
 
     s_pom = os.path.join(dest_dir, "pom.xml")
     d_pom = os.path.join(dest_dir, "pom-new.xml")
@@ -45,8 +51,8 @@ def fork(project, directory):
         with open(d_pom, 'w+') as fdd:
             for s_line in s_lines:
                 # replace 'artifactId' of maven project
-                if "<artifactId>maven-helloworld</artifactId>" in s_line:
-                    d_line = s_line.replace("maven-helloworld", project)
+                if "<artifactId>%s</artifactId>" % project_name in s_line:
+                    d_line = s_line.replace(project_name, project)
                     fdd.write(d_line)
                 # replace executable jar file name
                 elif "<finalName>helloworld</finalName>" in s_line:
