@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <!--
+    -
+    -    integrate mybatis with spring framework based on mapper interface
+    -
+    -->
+
+    <!-- import property source -->
+    <context:property-placeholder location="jdbc.properties"/>
+
+    <!-- data source -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close">
+        <property name="driverClass" value="${jdbc.driver.class}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.user}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="initialPoolSize" value="${jdbc.initial.pool.size}"/>
+        <property name="minPoolSize" value="${jdbc.min.pool.size}"/>
+        <property name="maxPoolSize" value="${jdbc.max.pool.size}"/>
+
+        <property name="acquireIncrement" value="5"/>
+        <property name="acquireRetryAttempts" value="1200"/>
+        <property name="acquireRetryDelay" value="1000"/>
+        <property name="checkoutTimeout" value="300000"/>
+        <property name="idleConnectionTestPeriod" value="180"/>
+        <property name="maxIdleTime" value="0"/>
+        <property name="maxIdleTimeExcessConnections" value="0"/>
+        <property name="maxStatements" value="0"/>
+        <property name="maxStatementsPerConnection" value="25"/>
+        <property name="numHelperThreads" value="6"/>
+        <property name="preferredTestQuery" value="SELECT 1"/>
+        <property name="testConnectionOnCheckin" value="true"/>
+        <property name="testConnectionOnCheckout" value="false"/>
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mapperLocations" value="classpath:mybatis-mapper/*.xml"/>
+    </bean>
+
+    <!-- configurer of scanner to scan all mapper interface(s) under specific base package -->
+    <bean id="scannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <property name="basePackage" value="my.zjm"/>
+    </bean>
+
+    <!--
+    -
+    -    transaction relative beans
+    -
+    -->
+
+    <!-- enable annotation '@Transaction' -->
+    <tx:annotation-driven/>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+</beans>
+
