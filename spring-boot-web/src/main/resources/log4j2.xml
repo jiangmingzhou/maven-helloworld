@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <Appenders>
+        <Console name="CONSOLE" target="SYSTEM_OUT">
+            <PatternLayout charset="UTF-8" pattern="%-5p[%d][%t]%C(%L):%m%n"/>
+        </Console>
+
+        <RollingFile name="FILE" fileName="logs/helloworld.log" filePattern="logs/helloworld-%d{yyyy-MM-dd HH}.log">
+            <PatternLayout pattern="%-5p[%d][%t]%C(%L):%m%n"/>
+            <Policies>
+                <!--
+                    配置日志滚动策略为时间策略：时间单位由'filePattern'指定的格式中最小单
+                    位控制。比如当前配置的'filePattern'的时间单位为'HH'（小时），那么当时
+                    间从8时流逝成9时，日志滚动到新文件。（也就是说每小时产生新日志文件，值为
+                    2则表示每2小时）。
+                -->
+                <!-- <TimeBasedTriggeringPolicy interval="1"/> -->
+
+                <!--
+                    配置日志滚动策略为大小策略：当日志大小超过指定大小时，将产生新的日志文件。
+                -->
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <!--
+                日志文件计数器最大值。
+            -->
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <root level="debug">
+            <AppenderRef ref="CONSOLE"/>
+            <AppenderRef ref="FILE"/>
+        </root>
+        <!--
+            指定特定包或类的日志属性。
+        -->
+        <logger name="my.zjm" level="debug" additivity="true">
+            <AppenderRef ref="CONSOLE"/>
+            <AppenderRef ref="FILE"/>
+        </logger>
+    </Loggers>
+</configuration>
