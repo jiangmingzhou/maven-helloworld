@@ -11,7 +11,7 @@ def current_dir():
 
 def main(argv):
     workspace = os.path.abspath(os.path.join(current_dir(), os.path.pardir))
-    classpath = (".:%s/lib/*:%s/config" % (workspace, workspace))
+    classpath = (".:%s/lib/*:%s/config:%s/data" % (workspace, workspace, workspace))
     cmd = ("java -cp %s my.zjm.mybatis.HelloWorld" % (classpath))
     print("$$ %s" % cmd)
     os.system(cmd)

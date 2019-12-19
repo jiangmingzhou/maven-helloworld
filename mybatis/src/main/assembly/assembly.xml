@@ -24,7 +24,7 @@
             <directory>src/main/resources</directory>
             <outputDirectory>/config</outputDirectory>
             <includes>
-                <include>*</include>
+                <include>**</include>
             </includes>
             <excludes>
                 <exclude>data</exclude>

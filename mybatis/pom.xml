@@ -116,6 +116,19 @@
     </dependencies>
 
     <build>
+        <resources>
+            <!--
+                assembly打包已经加入了resources下的资源，不能在jar包中重复添加这些
+                资源，因此在此过滤掉它们。
+            -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <excludes>
+                    <exclude>**</exclude>
+                </excludes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
