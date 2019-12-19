@@ -36,9 +36,9 @@
         <!--
             指定特定包或类的日志属性。
         -->
-        <logger name="my.zjm" level="debug" additivity="true">
-            <AppenderRef ref="CONSOLE"/>
-            <AppenderRef ref="FILE"/>
-        </logger>
+        <!--        <logger name="my.zjm" level="debug" additivity="true">-->
+        <!--            <AppenderRef ref="CONSOLE"/>-->
+        <!--            <AppenderRef ref="FILE"/>-->
+        <!--        </logger>-->
     </Loggers>
 </configuration>
